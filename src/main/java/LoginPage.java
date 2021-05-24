@@ -13,6 +13,7 @@ public class LoginPage {
 
     public LoginPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+
         this.driver = driver;
     }
 
@@ -42,6 +43,8 @@ public class LoginPage {
 
 
     public void clickLoginBtn() {
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/main/div/a[2]")));
+
         loginBtn.click();
     }
 

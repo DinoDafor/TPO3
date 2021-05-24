@@ -10,42 +10,27 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class WallTest {
-
-    public static WallPage wallPage;
-    public static WebDriver driver;
-    public static NotificationPage notificationPage;
+public class WallTest extends MyTest {
 
 
     @BeforeClass
     public static void setup() {
-        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("user-data-dir=C:\\Users\\dinod\\AppData\\Local\\Google\\Chrome\\User Data\\TPOProfile");
-
-        driver = new ChromeDriver(options);
-        wallPage = new WallPage(driver);
-        notificationPage = new NotificationPage(driver);
-        driver.manage().window().maximize();
-
-
-
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-
-        driver.get("https://ask.fm/account/wall");
-
+        firstSetUp();
+        lastSetUp();
     }
 
     @Test
     public void makeQuestionTest() {
+        driverList.forEach(driver -> {
+        TestFactory.initPages(driver, Pages.WALL);
+        driver.get("https://ask.fm/account/wall");
         wallPage.inputQuestion("Тест функционала");
         wallPage.clickFirstButton();
         wallPage.clickOnFriend();
         wallPage.clickSecondButton();
         driver.get("https://ask.fm/account/notifications");
         notificationPage.checkNewQuestion("Вы получили анонимный вопрос \"Тест функционала\"");
-       
+        });
 
 
     }
@@ -53,27 +38,35 @@ public class WallTest {
 
     @Test
     public void deleteQuestionTest(){
+        driverList.forEach(driver -> {
+        TestFactory.initPages(driver, Pages.WALL);
+        driver.get("https://ask.fm/account/wall");
         wallPage.clickOnQuestionIcon();
         wallPage.clickOnMoreForQuestion();
         int countOfQuestions = Integer.parseInt(wallPage.getCountOfQuestions().getText());
         wallPage.clickOnDeleteQuestionButton();
         assertEquals(countOfQuestions - 1, Integer.parseInt(wallPage.getCountOfQuestions().getText()));
-
+        });
     }
     //todo Когда удалены все вопросы, кроме вопросов дня, то нет кнопки "удалить все вопросы"
     @Test
     public void deleteAllQuestionsTest() {
-
+        driverList.forEach(driver -> {
+        TestFactory.initPages(driver, Pages.WALL);
+        driver.get("https://ask.fm/account/wall");
         wallPage.clickOnQuestionIcon();
         wallPage.clickOnDeleteAllQuestionsButton();
         wallPage.acceptAlert();
         assertTrue(wallPage.checkAmountOfQuestions());
-
+        });
 
     }
 
     @Test
     public void answerOnQuestionTest() {
+        driverList.forEach(driver -> {
+        TestFactory.initPages(driver, Pages.WALL);
+        driver.get("https://ask.fm/account/wall");
         wallPage.clickOnQuestionIcon();
         wallPage.clickOnButtonAnswer();
         wallPage.inputAnswer("Test");
@@ -82,19 +75,16 @@ public class WallTest {
        // wallPage.clickOnCloseAlertAfterAnswer();
         driver.get("https://ask.fm/account/wall");
         assertTrue(wallPage.checkAnswerText("Test"));
-
+        });
 
     }
 
-//    @Test
-//    public void exitTest(){
-//
-//    wallPage.clickOnSettingsIcon();
-//    wallPage.clickOnExit();
-//    }
     @AfterClass
     public static void tearsDown(){
+        driverList.forEach(driver -> {
         driver.quit();
+        });
+
     }
 
 
