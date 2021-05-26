@@ -5,29 +5,27 @@ import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.concurrent.TimeUnit;
+
 
 import static org.junit.Assert.assertTrue;
 
 public class SettingsTest extends MyTest {
-    public static SettingsPage settingsPage;
-    public static WebDriver driver;
-    public WebDriverWait wait;
-    public static ProfilePage profilePage;
+
+    public LoginTest loginTest = new LoginTest();
 
     @BeforeClass
     public static void setup() {
         //todo naming
         firstSetUp();
         lastSetUp();
-
-        TestFactory.initPages(driver, Pages.SETTINGS);
     }
 
     @Test
     public void changeNameTest() {
         driverList.forEach(driver -> {
+            //todo придется в фабрике добавлять страницы
             TestFactory.initPages(driver, Pages.SETTINGS);
+            loginTest.loginIn(driver);
             driver.get("https://ask.fm/account/settings/profile");
             settingsPage.changeName("Гена Букин");
             settingsPage.clickOnChangeSettingsButton();
@@ -40,6 +38,7 @@ public class SettingsTest extends MyTest {
     public void changeLocationTest() {
         driverList.forEach(driver -> {
             TestFactory.initPages(driver, Pages.SETTINGS);
+            loginTest.loginIn(driver);
             driver.get("https://ask.fm/account/settings/profile");
             settingsPage.changeLocation("Kiev");
             settingsPage.clickOnChangeSettingsButton();
@@ -51,36 +50,39 @@ public class SettingsTest extends MyTest {
     @Test
     public void changeAboutMeTest() {
         driverList.forEach(driver -> {
-        TestFactory.initPages(driver, Pages.SETTINGS);
-        driver.get("https://ask.fm/account/settings/profile");
-        settingsPage.changeAboutMe("Working in shoe store");
-        settingsPage.clickOnChangeSettingsButton();
-        driver.get("https://ask.fm/id136288113");
-        assertTrue(profilePage.checkAboutMe("Working in shoe store"));
+            TestFactory.initPages(driver, Pages.SETTINGS);
+            loginTest.loginIn(driver);
+            driver.get("https://ask.fm/account/settings/profile");
+            settingsPage.changeAboutMe("Working in shoe store");
+            settingsPage.clickOnChangeSettingsButton();
+            driver.get("https://ask.fm/id136288113");
+            assertTrue(profilePage.checkAboutMe("Working in shoe store"));
         });
     }
 
     @Test
     public void changeSiteTest() {
         driverList.forEach(driver -> {
-        TestFactory.initPages(driver, Pages.SETTINGS);
-        driver.get("https://ask.fm/account/settings/profile");
-        settingsPage.changeSite("google.com");
-        settingsPage.clickOnChangeSettingsButton();
-        driver.get("https://ask.fm/id136288113");
-        assertTrue(profilePage.checkSite("google.com"));
+            TestFactory.initPages(driver, Pages.SETTINGS);
+            loginTest.loginIn(driver);
+            driver.get("https://ask.fm/account/settings/profile");
+            settingsPage.changeSite("google.com");
+            settingsPage.clickOnChangeSettingsButton();
+            driver.get("https://ask.fm/id136288113");
+            assertTrue(profilePage.checkSite("google.com"));
         });
     }
 
     @Test //todo Здесь найден баг, но не мой
     public void changeInterestsTest() {
         driverList.forEach(driver -> {
-        TestFactory.initPages(driver, Pages.SETTINGS);
-        driver.get("https://ask.fm/account/settings/profile");
-        settingsPage.changeInterests("LoveShoes ");
-        settingsPage.clickOnChangeSettingsButton();
-        driver.get("https://ask.fm/id136288113");
-        assertTrue(profilePage.checkHashTags("#loveshoes"));
+            TestFactory.initPages(driver, Pages.SETTINGS);
+            loginTest.loginIn(driver);
+            driver.get("https://ask.fm/account/settings/profile");
+            settingsPage.changeInterests("LoveShoes ");
+            settingsPage.clickOnChangeSettingsButton();
+            driver.get("https://ask.fm/id136288113");
+            assertTrue(profilePage.checkHashTags("#loveshoes"));
         });
     }
 

@@ -10,6 +10,7 @@ public class TestFactory {
                 break;
             case WALL:
                 MyTest.wallPage = new WallPage(driver);
+                MyTest.notificationPage = new NotificationPage(driver);
                 break;
             case SETTINGS:
                 MyTest.profilePage = new ProfilePage(driver);

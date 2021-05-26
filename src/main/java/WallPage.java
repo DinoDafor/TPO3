@@ -55,17 +55,17 @@ public class WallPage {
     }
 
 
-    @FindBy(xpath = "//*[@id=\"contentArea\"]/div/div/section/div[2]/div/article[1]/div[1]/a")
+    @FindBy(xpath = "//*[@id=\"contentArea\"]/div/div/section/div[2]/div/article[1]/div[2]/div/div[2]/a")
     private WebElement iconMoreForQuestion;
 
     public void clickOnMoreForQuestion() {
-        wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"contentArea\"]/div/div/section/div[2]/div/article[1]/div[1]/a")));
+        wait = new WebDriverWait(driver, 300);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"contentArea\"]/div/div/section/div[2]/div/article[1]/div[2]/div/div[2]/a")));
         iconMoreForQuestion.click();
     }
 
 
-    @FindBy(xpath = "//*[@id=\"contentArea\"]/div/div/section/div[2]/div/article[1]/div[1]/nav/a[1]")
+    @FindBy(xpath = "//*[@id=\"contentArea\"]/div/div/section/div[2]/div/article[1]/div[2]/div/div[2]/nav/a[1]")
     private WebElement deleteQuestionButton;
 
     public void clickOnDeleteQuestionButton() {
@@ -92,6 +92,8 @@ public class WallPage {
 
     @FindBy(xpath = "//*[@id=\"contentArea\"]/div/div/section/div[2]/div/article[1]/div[2]/a")
     private WebElement buttonForAnswer;
+
+
 
     public void clickOnButtonAnswer() {
         wait = new WebDriverWait(driver, 10);
@@ -141,12 +143,14 @@ public class WallPage {
     }
 
 
-
-    @FindBy(xpath = "//*[@id=\"contentArea\"]/div/div/section/header/h1/span")
+    //*[@id="contentArea"]/div/div/section/header/h1/span
+    @FindBy(xpath = "//*[@id=\"contentArea\"]/div/div/section/header/h1")
     private WebElement countOfQuestions;
 
     public boolean checkAmountOfQuestions() {
-        return (countOfQuestions.getText().equals("0") || countOfQuestions.getText().equals("1"));
+        return countOfQuestions.getText().trim().equals("Вопросы");
+//        return (countOfQuestions.getText().equals("0")
+//                || countOfQuestions.getText().equals("1"));
     }
 
     public WebElement getCountOfQuestions() {

@@ -9,10 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-
 public class LoginTest extends MyTest {
-
-    //todo сделать конструкторы?
 
     @BeforeClass
     public static void setup() {
@@ -21,23 +18,23 @@ public class LoginTest extends MyTest {
         lastSetUp();
 
     }
-
+    public void loginIn(WebDriver driver){
+        TestFactory.initPages(driver, Pages.LOGIN);
+        driver.get(ConfProperties.getProperty("loginpage"));
+        loginPage.clickLoginBtn();
+        loginPage.inputLogin(ConfProperties.getProperty("login"));
+        loginPage.inputPasswd(ConfProperties.getProperty("password"));
+        assertTrue(loginPage.checkLoginAndPassFields(ConfProperties.getProperty("login"), ConfProperties.getProperty("password")));
+        loginPage.clickLoginBtn2();
+        wait = new WebDriverWait(driver, 300);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"topMenu\"]/div[1]/section/nav/a[3]")));
+        driver.get("https://ask.fm/id136288113");
+        assertTrue(profilePage.checkProfileID("@id136288113"));
+    }
     @Test
     public void loginTest() {
-        driverList.parallelStream().forEach(driver -> {
-            TestFactory.initPages(driver, Pages.LOGIN);
-            driver.get(ConfProperties.getProperty("loginpage"));
-          //  wait = new WebDriverWait(driver, 300);
-            LoginPage loginPage1 = new LoginPage(driver);
-            loginPage1.clickLoginBtn();
-            loginPage1.inputLogin(ConfProperties.getProperty("login"));
-            loginPage1.inputPasswd(ConfProperties.getProperty("password"));
-            assertTrue(loginPage1.checkLoginAndPassFields(ConfProperties.getProperty("login"), ConfProperties.getProperty("password")));
-            loginPage1.clickLoginBtn2();
-          //  wait = new WebDriverWait(driver, 300);
-          //  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"topMenu\"]/div[1]/section/nav/a[3]")));
-            driver.get("https://ask.fm/id136288113");
-            assertTrue(profilePage.checkProfileID("@id136288113"));
+        driverList.forEach(driver -> {
+            loginIn(driver);
         });
 
 
@@ -47,15 +44,14 @@ public class LoginTest extends MyTest {
     public void registrationTest() {
         driverList.forEach(driver -> {
             TestFactory.initPages(driver, Pages.LOGIN);
+            driver.get("https://ask.fm/");
             loginPage.clickOnRegisterButton();
             loginPage.inputRegistrationEmail("doddoser@mail.ru");
             loginPage.selectBirthday();
             loginPage.clickOnRegisterSecondButton();
             loginPage.inputNameForRegistration("doddoser69");
-
             loginPage.clickOnRegisterSecondButton();
             driver.get("https://ask.fm/doddoser69");
-
             assertTrue(profilePage.checkProfileID("@doddoser69"));
         });
 

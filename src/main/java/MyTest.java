@@ -21,21 +21,22 @@ public class MyTest {
 
     public static void firstSetUp(){
         driverList = new ArrayList<>();
-        //todo Надо подумать что делать с Драйверами
         if (ConfProperties.getProperty("isChrome").equals("yes")  && !ConfProperties.getProperty("isFirefox").equals("yes")) {
             System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("user-data-dir=C:\\Users\\dinod\\AppData\\Local\\Google\\Chrome\\User Data\\TPOProfile");
-            driverList.add(new ChromeDriver(options));
+           // ChromeOptions options = new ChromeOptions();
+            //options.addArguments("user-data-dir=C:\\Users\\dinod\\AppData\\Local\\Google\\Chrome\\User Data\\TPOProfile");
+            //driverList.add(new ChromeDriver(options));
+            driverList.add(new ChromeDriver());
         } else if (ConfProperties.getProperty("isFirefox").equals("yes") && !ConfProperties.getProperty("isChrome").equals("yes")){
             System.setProperty("webdriver.gecko.driver", ConfProperties.getProperty("geckodriver"));
             driverList.add(new FirefoxDriver());
         } else if (ConfProperties.getProperty("isChrome").equals("yes") && ConfProperties.getProperty("isFirefox").equals("yes")){
             System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("user-data-dir=C:\\Users\\dinod\\AppData\\Local\\Google\\Chrome\\User Data\\TPOProfile");
+            //ChromeOptions options = new ChromeOptions();
+           // options.addArguments("user-data-dir=C:\\Users\\dinod\\AppData\\Local\\Google\\Chrome\\User Data\\TPOProfile");
 
-            driverList.add(new ChromeDriver(options));
+           //driverList.add(new ChromeDriver(options));
+            driverList.add(new ChromeDriver());
 
             System.setProperty("webdriver.gecko.driver", ConfProperties.getProperty("geckodriver"));
             driverList.add(new FirefoxDriver());
